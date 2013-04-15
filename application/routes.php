@@ -32,10 +32,9 @@
 |
 */
 
-Route::get('/', function()
-{
-	return View::make('home.index');
-});
+Route::any('/', 'home@index');
+Route::any('search', 'home@search');
+Route::controller(Controller::detect());
 
 /*
 |--------------------------------------------------------------------------
