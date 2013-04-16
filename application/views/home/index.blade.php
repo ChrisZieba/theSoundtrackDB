@@ -103,10 +103,11 @@
 
 						<iframe src="https://platform.twitter.com/widgets/tweet_button.html?url=http%3A%2F%2Fthesoundtrackdb.com&amp;via=theSoundtrackDB&amp;text=Search%20for%20and%20listen%20to%20music%20from%20any%20movie%20or%20tv%20show!" allowtransparency="true" frameborder="0" scrolling="no" style="width:80px; height:20px;"></iframe>
 						<iframe src="//www.facebook.com/plugins/like.php?href=https%3A%2F%2Fwww.facebook.com%2FTheSoundtrackDB&amp;send=false&amp;layout=button_count&amp;width=450&amp;show_faces=true&amp;font&amp;colorscheme=light&amp;action=like&amp;height=21&amp;appId=632607110098966" scrolling="no" frameborder="0" class="facebook-like-button" allowTransparency="true" style="width:80px; height:20px;"></iframe>
-						
+						<iframe src="//platform.twitter.com/widgets/follow_button.html?screen_name=theSoundtrackDB&show_count=false" allowtransparency="true" frameborder="0" scrolling="no"  style="width:200px; height:20px;"></iframe>
 				
 					</div>
 				</div>
+
 
 				<div class="clear"></div>
 
