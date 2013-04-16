@@ -104,7 +104,7 @@ def parse (download_location, host, dbname, user, password, table_name, table_ti
 
 		if con:
 			# add an index on the text colum to speed up seaerch
-			cur.execute("CREATE INDEX titles_idx ON " + table_name + " USING gist (" + table_title + " gist_trgm_ops);")
+			# cur.execute("CREATE INDEX titles_idx ON " + table_name + " USING gist (" + table_title + " gist_trgm_ops);")
 			con.close()
  
 if __name__ == "__main__":
