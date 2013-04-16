@@ -30,7 +30,7 @@ def main ():
 
 	# The first step is to get the file from IMDB and store it somewhere on disk
 	print "(1 of 2) Downloading from " + defaults['download_url'] + " to location " + defaults['download_location'] + "..."
-	#functions.download(defaults['download_url'], defaults['download_location'])
+	functions.download(defaults['download_url'], defaults['download_location'])
 	print "Download Complete."
 
 	# The second step is to parse thedownladed inforamtion and insert it into the database
