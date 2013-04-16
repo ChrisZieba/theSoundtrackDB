@@ -1,4 +1,4 @@
-\c laravel
+\c thesoundtrackdb
 
 DROP TABLE IF EXISTS popular;
 
