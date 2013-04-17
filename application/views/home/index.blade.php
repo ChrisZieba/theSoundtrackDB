@@ -36,7 +36,7 @@
 
 				<!--<div class="logo"><a href=""><img src="img/logo.png" /></a></div>-->
 				<form class="search-box">
-					<input type="text" id="pgSearch" class="input noEnterSubmit" placeholder="search for a movie or tv show to find and listen to its soundtrack" autocomplete="off" />
+					<input type="text" id="pgSearch" class="input noEnterSubmit" placeholder="start typing to search for a movie or tv show and listen to its soundtrack" autocomplete="off" />
 					<div class="input-results"></div>
 				</form>
 			</div>
@@ -103,7 +103,7 @@
 
 						<iframe src="https://platform.twitter.com/widgets/tweet_button.html?url=http%3A%2F%2Fthesoundtrackdb.com&amp;via=theSoundtrackDB&amp;text=Search%20for%20and%20listen%20to%20music%20from%20any%20movie%20or%20tv%20show!" allowtransparency="true" frameborder="0" scrolling="no" style="width:80px; height:20px;"></iframe>
 						<iframe src="//www.facebook.com/plugins/like.php?href=https%3A%2F%2Fwww.facebook.com%2FTheSoundtrackDB&amp;send=false&amp;layout=button_count&amp;width=450&amp;show_faces=true&amp;font&amp;colorscheme=light&amp;action=like&amp;height=21&amp;appId=632607110098966" scrolling="no" frameborder="0" class="facebook-like-button" allowTransparency="true" style="width:80px; height:20px;"></iframe>
-						<iframe src="//platform.twitter.com/widgets/follow_button.html?screen_name=theSoundtrackDB&show_count=false" allowtransparency="true" frameborder="0" scrolling="no"  style="width:200px; height:20px;"></iframe>
+						<iframe src="//platform.twitter.com/widgets/follow_button.html?screen_name=theSoundtrackDB&show_count=false" allowtransparency="true" frameborder="0" scrolling="no"  style="width:170px; height:20px;"></iframe>
 				
 					</div>
 				</div>
@@ -208,8 +208,13 @@
 
 			</div>
 
-
+			<div class="clear"></div>
+			
+			<div class="footer">
+				hi
+			</div>
 		</div>
+
 
 
 	</div><!--container-->
@@ -276,6 +281,21 @@
 
 
 	</script>
+
+
+	<script type="text/javascript">
+		//<![CDATA[
+		var sc_project=8856672; 
+		var sc_invisible=1; 
+		var sc_security="c132d7c9"; 
+		var scJsHost = (("https:" == document.location.protocol) ?
+		"https://secure." : "http://www.");
+		document.write("<sc"+"ript type='text/javascript' src='" +
+		scJsHost+
+		"statcounter.com/counter/counter_xhtml.js'></"+"script>");
+		//]]>
+	</script>
+
 
 </body>
 </html>
