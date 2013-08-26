@@ -77,7 +77,7 @@
 		</div>
 
 		<div ng-show="playlist.show == false && playlist.loading == false">
-			<p>theSoundtrackDB is a place to find and listen to most movie and tv soundtracks. All the soundtrack listings are from <a href="http://www.imdb.com/interfaces">The Plain Text Data Files</a> via <a href="http://www.imdb.com/"><strong>IMDB</strong></a>, and the music is provided couretsy of <strong>YouTube</strong>. All images of movie posters are provided by <a href="http://www.themoviedb.org/"><strong>themoviedb</strong></a>. This project is for personal and non-commercial use, and was developed by Chris Zieba.</p>
+			<p>theSoundtrackDB is a place to find and listen to most movie and tv soundtracks. All the soundtrack listings are from <a href="http://www.imdb.com/interfaces">The Plain Text Data Files</a> via <a href="http://www.imdb.com/"><strong>IMDB</strong></a>, and the music is provided couretsy of <strong>YouTube</strong>. All images of movie posters are provided by <a href="http://www.themoviedb.org/"><strong>themoviedb</strong></a>. This project is for personal and non-commercial use.</p>
 			
 			<div class="social">
 
@@ -115,7 +115,7 @@
 			<ul class="movies-list">
 				@foreach ($popular as $pop_itm)
 					
-					<li ng-click="run({{ $pop_itm->id }})" title="{{ $new_itm->title }}">
+					<li ng-click="run({{ $pop_itm->id }})" title="{{ $pop_itm->title }}">
 						<img src="img/posters/{{ $pop_itm->id }}.jpg" width="185" height="278" />
 
 						<div class="movies-info">

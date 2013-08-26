@@ -4,8 +4,8 @@ class Home_Controller extends Base_Controller {
 
 	public function action_index() {
 		
-		$popular = DB::query("SELECT id, title,count FROM soundtracks WHERE id in (92832,60754,96703,82696,91086,51750,62577,65100,94873,84294,97984,85802)");
-		$newest = DB::query("SELECT id, title,count FROM soundtracks WHERE id in (92832,60754,96703,82696,91086,51750,62577,65100,94873,84294,97984,85802)");
+		$popular = DB::query("SELECT id, title,count FROM soundtracks WHERE id in (52638,61707,63540,66080,83796,86927,99193,96052,89300,97777)");
+		$newest = DB::query("SELECT id, title,count FROM soundtracks WHERE id in (81813,96132,96685,50373,94439,85413,92248,94004,50528,82344)");
 
 		return View::make('home.index', array('popular' => $popular,  'newest' => $newest));
 	}

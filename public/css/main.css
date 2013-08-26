@@ -262,6 +262,11 @@ ul.movies-list li .movies-info h2 {
 	text-overflow: ellipsis;
 }
 
+ul.movies-list li img { 
+	height: 278px;
+	width:185px;
+	overflow:hidden;
+}
 
 ul.movies-list li cite {
 	font-size: 12px;
