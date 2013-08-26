@@ -33,7 +33,8 @@
 */
 
 Route::any('/', 'home@index');
-Route::any('search', 'home@search');
+Route::any('titles', 'home@titles');
+Route::any('songs', 'home@songs');
 Route::controller(Controller::detect());
 
 /*

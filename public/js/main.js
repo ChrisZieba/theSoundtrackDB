@@ -1,0 +1,295 @@
+var main = angular.module('main',['youtube']);
+
+main.config(function($interpolateProvider) {
+  $interpolateProvider.startSymbol('{[{');
+  $interpolateProvider.endSymbol('}]}');
+});
+
+
+main.factory('playlist', function($http, $q) {
+
+	var promises = [];
+
+	return {
+		get: function(songs) {
+
+			var promises = [];
+
+			// go thrug hevery song that is part of the soundtrack (these are returned first from the server) and 
+			// hit youtube for the video id. Each result is pushed onto the promis array which is returned to the controller.
+
+			for(var i = 0; i < songs.length; i++) {
+
+				// the default query is just the title of the song
+				var q = songs[i].title;
+
+				if (songs[i].performed_by != null) {
+					q = songs[i].title + '+' + songs[i].performed_by;
+				} else if (songs[i].written_by != null) {
+					q = songs[i].title + '+' + songs[i].written_by;
+				} else if (songs[i].by != null) {
+					q = songs[i].title + '+' + songs[i].by;
+				}
+
+
+				promises.push($http({
+					method: 'JSONP', 
+					url: "https://gdata.youtube.com/feeds/api/videos", 
+					params:{
+						"q": q,
+						"orderby": "relevance",
+						"start-index": "1",
+						"max-results": "1",
+						"v": "2",
+						"category": "Music",
+						"format": "5",
+						"fields": "entry",
+						"alt": "json-in-script",
+						"key": "AI39si4GvSbD8b5YToRoi2iKe_9FpIJS-PwqSlRMTRfVMVh0FcFEP0FBRT8bNGGP8Twl3GmaESWxldETOfvf_4RQX33LgJ3sgA",
+						"callback": "JSON_CALLBACK"
+					} 
+				}));
+			}
+
+			return $q.all(promises)
+
+		},
+
+		// return an array of the playlist songs,  given an array of responses
+		format: function (response) {
+
+			var playlist = [];
+
+
+			for (var i=0; i<response.length; i+=1) {
+
+				// if youtube didnt find a result this will be false
+				var entry = (response[i].data.feed.entry) ? response[i].data.feed.entry[0] : false;
+
+				var title = response[i].config.params.q.split('+')[0];
+				var artist = (response[i].config.params.q.split('+')[1]) ? response[i].config.params.q.split('+')[1] : null;
+				var duration = (entry) ? entry['media$group']['media$content'][0].duration : null;
+				var progress = (entry) ? 0 : null;
+				var link = (entry) ? entry.link[0].href : null;
+				var id = (entry) ? entry.id["$t"].split(':')[3]: null;
+				var state = null;
+
+				playlist.push({
+					title: title,
+					artist: artist,
+					duration: duration,
+					progress: progress,
+					link: link,
+					id: id,
+					state: state
+				});
+
+
+
+			}
+
+			// we want to show the songs that have youtube videos at the top of the array
+			playlist.sort(function (a, b) {
+				return (a.id === null) ? 1 : -1;
+			});
+
+			return playlist;
+
+		}
+	};
+
+});
+
+
+main.controller('MainCtrl', function(playlist, $scope, $rootScope, $http, youtubePlayerApi) {
+
+	$rootScope.contentLoaded = false;
+
+	$scope.playlist = {
+		count: 0,
+		show: false,
+		loading: false,
+		songs: [],
+		current: {
+			index: null,
+			interval: null
+		}
+	};
+
+	$scope.movies = {
+		count: 0,
+		current: {
+			title: null,
+			input: null
+		},
+		show: false,
+		titles: [],
+		poster: {
+			url: 'img/none.jpg',
+			year: 'N/A'
+		}
+	}
+
+
+
+	var parseMovieTitle = function (query) {
+		var stripped = query.replace(/\((.*?)\)/gi, "");
+		return stripped;
+	};
+
+	var parseMovieYear = function (query) {
+		var year = '';
+		var matches = query.match(/\((\d{4}.*?)\)/i);
+
+		if (matches && matches.length > 0) {
+			// strip out all non-numeric characters
+			year = matches[0].replace(/[A-Za-z$-\(\)\{\}\[\]\\\/]/g, "");
+		}
+		return year;
+	};
+
+	var resetSong = function () {
+
+		// stop the player
+		youtubePlayerApi.stop();
+
+		// we need to mkae sure ay song playing is reset
+		if ($scope.playlist.current.index !== null && typeof $scope.playlist.current.index !== 'undefined') {
+			
+			if ($scope.playlist.songs[$scope.playlist.current.index]) {
+				$scope.playlist.songs[$scope.playlist.current.index].state = null;
+				$scope.playlist.songs[$scope.playlist.current.index].progress = 0;
+
+				// this will stop the progress bar on the last playing song
+				clearInterval($scope.playlist.current.interval);
+			}
+		}
+	}
+
+	$scope.formatTime = function (seconds) {
+
+		var total_sec = parseInt(seconds, 10);
+		var minutes = parseInt( total_sec / 60 ) % 60;
+		var seconds = total_sec % 60;
+
+		var result = (minutes < 10 ? "0" + minutes : minutes) + ":" + (seconds  < 10 ? "0" + seconds : seconds);
+
+		return result;
+
+	};
+
+	$scope.getMoviesList = function (val) {
+
+		$http.get(BASE + '/titles?q=' + val + '&limit=10').success(function (data) {
+			// now we have all our movies and can add them
+			$scope.movies.titles = data;
+
+			// if there any movies we can show the list
+			if ($scope.movies.titles.length > 0) {
+				$scope.movies.show = true;
+			} else {
+				$scope.movies.show = false;
+			}
+		});
+	};
+
+	$scope.run = function (id) {
+console.log(id);
+		// hidwe the molvies list and the playlist
+		$scope.movies.show = false;
+		$scope.playlist.show = false;
+		$scope.movies.poster = {};
+
+		// if a song was playing, then clear it
+		resetSong();
+
+		// this will activate the loader
+		$scope.playlist.loading = true;
+
+		$http.get(BASE + '/songs?id=' + id).success(function (data) {
+			// now we have all our movies and can add them
+			$scope.movies.current.title = data[0].title;
+
+			playlist.get(JSON.parse(data[0].songs)).then(function(response) {
+				$scope.playlist.show = true;
+				$scope.playlist.songs = playlist.format(response);
+
+				$scope.playlist.loading = false;
+
+			});
+
+			$http({
+				method: 'JSONP', 
+				url: "http://api.themoviedb.org/3/search/movie", 
+				params:{
+					"api_key": "bec76ba6cb9f349afe8728693f6de4ba",
+					"query": parseMovieTitle(data[0].title),
+					"year": parseMovieYear(data[0].title),
+					"callback": "JSON_CALLBACK"
+				}
+			}).success(function (response) {
+
+				// now we have all our movies and can add them
+
+				if (response.results && response.results.length > 0) {
+					$scope.movies.poster.url = (response.results[0].poster_path) ? 'http://cf2.imgobject.com/t/p/w185' + response.results[0].poster_path : 'img/none.jpg';
+					$scope.movies.poster.year = (response.results[0].release_date) ? response.results[0].release_date : 'N/A';	
+				} else {
+					$scope.movies.poster.url = 'img/none.jpg';
+					$scope.movies.poster.year = 'N/A';	
+				}
+			});
+
+		});
+	};
+
+	// pass the array index of the song
+	$scope.play = function (index) {
+
+		var song = $scope.playlist.songs[index];
+
+		// if the current song is already playing, then a click will pause the video
+		switch (song.state) {
+			case 'play':
+				// pause the video
+				
+				$scope.playlist.songs[index].state = 'pause';
+				youtubePlayerApi.pause();
+			break;
+
+			case 'pause':
+				// if the current song is paused, then resume it
+				
+				$scope.playlist.songs[index].state = 'play';
+				youtubePlayerApi.resume();
+			break;
+
+			default:
+
+				resetSong();
+
+				// start the youtube video
+				youtubePlayerApi.play(song.id);
+
+				// set the current song to playing
+				$scope.playlist.songs[index].state = 'play';
+
+				// set the current song in the playlist
+				$scope.playlist.current.index = index;
+
+				// start the progress bar, and reloao it every second
+				$scope.playlist.current.interval = setInterval(function() { 
+					$scope.playlist.songs[index].progress = (youtubePlayerApi.getCurrentTime() / youtubePlayerApi.getTotalTime()) * 100;
+					$scope.$apply();
+				}, 1000);
+
+				$scope.$watch('playlist.songs', function () {}, true);
+			break;
+		}
+
+
+
+
+
+	}
+});
