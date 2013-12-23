@@ -35,6 +35,7 @@
 Route::any('/', 'home@index');
 Route::any('titles', 'home@titles');
 Route::any('songs', 'home@songs');
+Route::any('popular', 'home@popular');
 Route::controller(Controller::detect());
 
 /*
