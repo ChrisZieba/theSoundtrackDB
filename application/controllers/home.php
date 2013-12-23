@@ -4,10 +4,16 @@ class Home_Controller extends Base_Controller {
 
 	public function action_index() {
 		
-		$popular = DB::query("SELECT id, title,count FROM soundtracks WHERE id in (52638,61707,63540,66080,83796,86927,99193,96052,89300,97777)");
-		$newest = DB::query("SELECT id, title,count FROM soundtracks WHERE id in (81813,96132,96685,50373,94439,85413,92248,94004,50528,82344)");
+		return View::make('home.index');
+	}
 
-		return View::make('home.index', array('popular' => $popular,  'newest' => $newest));
+	public function action_popular() {
+
+
+		$popular = DB::query("SELECT id, title,count FROM soundtracks WHERE id in (52638,61707,63540,66080,83796,86927,99193,96052,89300,97777,81813,96132,96685,50373,94439,85413,92248,94004,50528,82344)");
+
+	    return Response::json($popular);
+
 	}
 
 	public function action_titles() {
