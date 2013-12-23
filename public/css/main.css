@@ -1,6 +1,7 @@
 html {
 	overflow-y: scroll;
    	height: 101%;
+   	min-width: 300px;
 }
 
 
@@ -120,7 +121,7 @@ h6 { font-size: 12px; line-height: 100%; margin-bottom: 8px; }
 	margin-left:10px;
 	background-color:#136CB2;
 	color:white;
-	font-size:75%;
+	font-size:70%;
 	-moz-border-radius: 8px;
 	-webkit-border-radius: 8px;
 	border-radius: 8px;  
@@ -187,14 +188,15 @@ h6 { font-size: 12px; line-height: 100%; margin-bottom: 8px; }
 }
 .info h1 {
 	color:#fff;
-	margin:0 0 10px 0;
+	margin:0 0 13px 0;
 	padding: 0;
 	text-align: center;
+	font-size: 40px;
 }
 
 .info h1 a {
 	color:#fff;
-	margin:0 0 10px 0;
+	margin:0;
 	padding: 3px 7px;
 	text-align: center;
 	text-decoration: none;
@@ -213,9 +215,14 @@ h6 { font-size: 12px; line-height: 100%; margin-bottom: 8px; }
 	text-align: center;
 	width:78%;
 	margin:0 auto 15px auto;
-	font-size: 110%;
+	font-size: 120%;
+	letter-spacing: 1px;
 }
 
+p.description {
+	width:82%;
+	margin: 0 auto 0 auto;
+}
 
 ul.movies-list {
 
@@ -752,7 +759,7 @@ Animate the stripes
 
 
 @media only screen and (max-width: 479px), only screen and (max-device-width: 479px) {
-	body { font-size: 12px; }
+	body { font-size: 13px; }
 
 
 	h1 { font-size: 26px; line-height: 100%; margin-bottom: 16px; }
@@ -787,6 +794,10 @@ Animate the stripes
 	.search .results ul li {
 		padding: 4px 1px 4px 1px;
 		font-size: 13px;
+	}
+
+	.info h1 {
+		font-size: 30px;
 	}
 
 }

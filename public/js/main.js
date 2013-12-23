@@ -1,25 +1,30 @@
 var main = angular.module('main',['youtube']);
 
+main.run(function ($rootScope) {
+	$rootScope.contentLoaded = false;
+});
+
 main.config(function($interpolateProvider) {
   $interpolateProvider.startSymbol('{[{');
   $interpolateProvider.endSymbol('}]}');
 });
 
+main.config(['$routeProvider', function($routeProvider) {
+	$routeProvider.
+		when('/soundtracks/:sid', { templateUrl: 'js/partials/playlist.html', controller: 'MainCtrl' }).
+		otherwise({ templateUrl: 'js/partials/main.html', controller: 'MainCtrl' });
+}]);
 
-main.factory('playlist', function($http, $q) {
-
+main.factory('playlist', function ($http, $q) {
 	var promises = [];
 
 	return {
 		get: function(songs) {
-
 			var promises = [];
 
-			// go thrug hevery song that is part of the soundtrack (these are returned first from the server) and 
-			// hit youtube for the video id. Each result is pushed onto the promis array which is returned to the controller.
-
-			for(var i = 0; i < songs.length; i++) {
-
+			// go through every song that is part of the soundtrack (these are returned first from the server) and 
+			// hit youtube for the video id. Each result is pushed onto the promise array which is returned to the controller.
+			for (var i = 0; i < songs.length; i++) {
 				// the default query is just the title of the song
 				var q = songs[i].title;
 
@@ -30,7 +35,6 @@ main.factory('playlist', function($http, $q) {
 				} else if (songs[i].by != null) {
 					q = songs[i].title + '+' + songs[i].by;
 				}
-
 
 				promises.push($http({
 					method: 'JSONP', 
@@ -52,20 +56,15 @@ main.factory('playlist', function($http, $q) {
 			}
 
 			return $q.all(promises)
-
 		},
 
 		// return an array of the playlist songs,  given an array of responses
 		format: function (response) {
-
 			var playlist = [];
 
-
-			for (var i=0; i<response.length; i+=1) {
-
-				// if youtube didnt find a result this will be false
+			for (var i = 0; i < response.length; i+=1) {
+				// if youtube didn't find a result this will be false
 				var entry = (response[i].data.feed.entry) ? response[i].data.feed.entry[0] : false;
-
 				var title = response[i].config.params.q.split('+')[0];
 				var artist = (response[i].config.params.q.split('+')[1]) ? response[i].config.params.q.split('+')[1] : null;
 				var duration = (entry) ? entry['media$group']['media$content'][0].duration : null;
@@ -83,9 +82,6 @@ main.factory('playlist', function($http, $q) {
 					id: id,
 					state: state
 				});
-
-
-
 			}
 
 			// we want to show the songs that have youtube videos at the top of the array
@@ -94,17 +90,11 @@ main.factory('playlist', function($http, $q) {
 			});
 
 			return playlist;
-
 		}
 	};
-
 });
 
-
-main.controller('MainCtrl', function(playlist, $scope, $rootScope, $http, youtubePlayerApi) {
-
-	$rootScope.contentLoaded = false;
-
+main.controller('MainCtrl', function(playlist, $scope, $rootScope, $http, $location, $routeParams, youtubePlayerApi) {
 	$scope.playlist = {
 		count: 0,
 		show: false,
@@ -115,8 +105,8 @@ main.controller('MainCtrl', function(playlist, $scope, $rootScope, $http, youtub
 			interval: null
 		}
 	};
-
 	$scope.movies = {
+		popular: [],
 		count: 0,
 		current: {
 			title: null,
@@ -128,8 +118,13 @@ main.controller('MainCtrl', function(playlist, $scope, $rootScope, $http, youtub
 			url: 'img/none.jpg',
 			year: 'N/A'
 		}
-	}
+	};
 
+	$scope.$on("$routeChangeSuccess", function ($currentRoute, $previousRoute ) {
+		if ($routeParams.sid) {
+			$scope.run($routeParams.sid);
+		}
+	});
 
 
 	var parseMovieTitle = function (query) {
@@ -149,13 +144,11 @@ main.controller('MainCtrl', function(playlist, $scope, $rootScope, $http, youtub
 	};
 
 	var resetSong = function () {
-
 		// stop the player
 		youtubePlayerApi.stop();
 
-		// we need to mkae sure ay song playing is reset
+		// we need to make sure any song playing is reset
 		if ($scope.playlist.current.index !== null && typeof $scope.playlist.current.index !== 'undefined') {
-			
 			if ($scope.playlist.songs[$scope.playlist.current.index]) {
 				$scope.playlist.songs[$scope.playlist.current.index].state = null;
 				$scope.playlist.songs[$scope.playlist.current.index].progress = 0;
@@ -166,20 +159,22 @@ main.controller('MainCtrl', function(playlist, $scope, $rootScope, $http, youtub
 		}
 	}
 
-	$scope.formatTime = function (seconds) {
+	$scope.getPopular = function () {
+		$http.get(BASE + '/popular').success(function (data) {
+			$scope.movies.popular = data;
+		});
+	};
 
+	$scope.formatTime = function (seconds) {
 		var total_sec = parseInt(seconds, 10);
 		var minutes = parseInt( total_sec / 60 ) % 60;
 		var seconds = total_sec % 60;
-
 		var result = (minutes < 10 ? "0" + minutes : minutes) + ":" + (seconds  < 10 ? "0" + seconds : seconds);
 
 		return result;
-
 	};
 
 	$scope.getMoviesList = function (val) {
-
 		$http.get(BASE + '/titles?q=' + val + '&limit=10').success(function (data) {
 			// now we have all our movies and can add them
 			$scope.movies.titles = data;
@@ -193,9 +188,14 @@ main.controller('MainCtrl', function(playlist, $scope, $rootScope, $http, youtub
 		});
 	};
 
+	$scope.setRoute = function (id) {
+		$location.path('/soundtracks/' + id);
+	};
+
 	$scope.run = function (id) {
-console.log(id);
-		// hidwe the molvies list and the playlist
+		//$location.path('/soundtracks/' + id);
+
+		// hide the movies list and the playlist
 		$scope.movies.show = false;
 		$scope.playlist.show = false;
 		$scope.movies.poster = {};
@@ -213,9 +213,7 @@ console.log(id);
 			playlist.get(JSON.parse(data[0].songs)).then(function(response) {
 				$scope.playlist.show = true;
 				$scope.playlist.songs = playlist.format(response);
-
 				$scope.playlist.loading = false;
-
 			});
 
 			$http({
@@ -228,9 +226,7 @@ console.log(id);
 					"callback": "JSON_CALLBACK"
 				}
 			}).success(function (response) {
-
 				// now we have all our movies and can add them
-
 				if (response.results && response.results.length > 0) {
 					$scope.movies.poster.url = (response.results[0].poster_path) ? 'http://cf2.imgobject.com/t/p/w185' + response.results[0].poster_path : 'img/none.jpg';
 					$scope.movies.poster.year = (response.results[0].release_date) ? response.results[0].release_date : 'N/A';	
@@ -239,45 +235,35 @@ console.log(id);
 					$scope.movies.poster.year = 'N/A';	
 				}
 			});
-
 		});
 	};
 
 	// pass the array index of the song
 	$scope.play = function (index) {
-
 		var song = $scope.playlist.songs[index];
 
 		// if the current song is already playing, then a click will pause the video
 		switch (song.state) {
 			case 'play':
 				// pause the video
-				
 				$scope.playlist.songs[index].state = 'pause';
 				youtubePlayerApi.pause();
 			break;
-
 			case 'pause':
 				// if the current song is paused, then resume it
 				
 				$scope.playlist.songs[index].state = 'play';
 				youtubePlayerApi.resume();
 			break;
-
 			default:
-
 				resetSong();
-
 				// start the youtube video
 				youtubePlayerApi.play(song.id);
-
 				// set the current song to playing
 				$scope.playlist.songs[index].state = 'play';
-
 				// set the current song in the playlist
 				$scope.playlist.current.index = index;
-
-				// start the progress bar, and reloao it every second
+				// start the progress bar, and reload it every second
 				$scope.playlist.current.interval = setInterval(function() { 
 					$scope.playlist.songs[index].progress = (youtubePlayerApi.getCurrentTime() / youtubePlayerApi.getTotalTime()) * 100;
 					$scope.$apply();
@@ -286,10 +272,5 @@ console.log(id);
 				$scope.$watch('playlist.songs', function () {}, true);
 			break;
 		}
-
-
-
-
-
 	}
 });

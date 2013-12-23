@@ -40,7 +40,6 @@ youtube.service('youtubePlayerApi', ['$window', '$rootScope', '$log', function (
 		'onReady': function () {
 			$rootScope.contentLoaded = true;
 			$rootScope.$apply();
-
 		},
 		'onStateChange': function () {
 
