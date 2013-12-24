@@ -46,7 +46,7 @@
 			<div class="container">
 				<div class="info">
 					<h1><a href="{{ URL::base(); }}">TheSoundtrackDB</a></h1>
-					<p>A place to find and listen to movie and TV soundtracks.</p>
+					<p>A place to find and listen to movie soundtracks.</p>
 				</div>
 				<div class="search">
 					<form>
