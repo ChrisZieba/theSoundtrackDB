@@ -11,7 +11,6 @@
 # OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 # OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-
 import sys
 import pprint
 import re
@@ -24,7 +23,6 @@ from StringIO import StringIO
 # @param download_url {String} The http address where the file loves
 # @param download_location {String} This is where we wish to save the new file downloaded from the url
 def download (download_url, download_location):
-
 	# read in the download_url's contents
 	u = urllib2.urlopen(download_url)
 	buf = StringIO(u.read())
@@ -38,14 +36,12 @@ def download (download_url, download_location):
 	w.write(data)
 	w.close()
 
-
 # Remove the hash from the begining of a string
 def cleanMovieTitle (text):
 	return text.split("#",1)[1].strip()
 
 # Will extract the movie or tv title from a string
 def getSongTitle (text):      
-	
 	pattern = r'\"(.+?)\"'
 	match = re.search(pattern, text)
 
@@ -53,7 +49,6 @@ def getSongTitle (text):
 		return match.group().strip('"')
 	else:
 		return ''
-
 
 # Removes brackets and other unwanted characters from the title
 def stripChars (text):

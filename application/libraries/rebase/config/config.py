@@ -8,7 +8,7 @@ defaults['download_location'] = "/tmp/soundtracks.list.txt"
 defaults['host'] = "localhost"
 defaults['dbname'] = "thesoundtrackdb"
 defaults['user'] = "postgres"
-defaults['password'] = ""
+defaults['password'] = "pitman23"
 defaults['table_name'] = "soundtracks"
 
 # this is the field ID of the movie title 

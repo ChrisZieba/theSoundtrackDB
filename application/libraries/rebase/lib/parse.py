@@ -11,14 +11,12 @@
 # OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 # OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-
 import psycopg2
 import sys
 import pprint
 import re
 import json
 from lib import functions
-
 
 # Parses the information given in the text file that was saved
 # @param download_location {String} This is where we wish to save the new file downloaded from the url
@@ -38,7 +36,7 @@ def parse (download_location, host, dbname, user, password, table_name, table_ti
 	con = psycopg2.connect(conn_string)
  	cur = con.cursor()  
 	cur.execute("DROP TABLE IF EXISTS " + table_name)
-	cur.execute("CREATE TABLE " + table_name + "(id SERIAL PRIMARY KEY, " + table_title + " text NOT NULL, " + table_songs + " text)")
+	cur.execute("CREATE TABLE " + table_name + "(id SERIAL PRIMARY KEY, " + table_title + " text NOT NULL, " + table_songs + " text, count smallint)")
 
 	# initialize an empty array to hold the songs for a movie title
 	songs = []
@@ -46,45 +44,43 @@ def parse (download_location, host, dbname, user, password, table_name, table_ti
 	song_title = ''
 	song_performed_by = ''
 	song_written_by = ''
-
+	by = ''
 
 	with open(download_location) as infile:
 		for line in infile:
-
 			line = line.decode('latin-1').encode('utf8')
 
 			if line[0] == '#' :
 				movie_title = functions.cleanMovieTitle(line.rstrip())
 			# A dash means we are at a song title
 			elif line[0] == '-' :
-
-
 				# every time we encounter a dash we are at a new song so push the old song onto the list
 				if song_title:
-
 					s = {
 						'title': song_title,
 						'performed_by': song_performed_by,
-						'written_by': song_written_by
+						'written_by': song_written_by,
+						'by': song_by
 					}
 					songs.append(s)
 
 				# now we get the current song title from the line in
 				song_title = functions.getSongTitle(line.rstrip())
-
 			elif line[0] == ' ':
 				if 'Performed by' in line:
 					song_performed_by = functions.stripChars(line.split("Performed by",1)[1]) 
 				if 'Written by' in line:
 					song_written_by = functions.stripChars(line.split("Written by",1)[1])
+				if line[1] == ' ' and line[2] == 'B' and line[3] == 'y':
+					song_by = functions.stripChars(line[4:])
 			else :
-
 				# if we get here we hit a new line which signals a new movie or tv show
 				if song_title:
 					s = {
 						'title': song_title,
 						'performed_by': song_performed_by,
-						'written_by': song_written_by
+						'written_by': song_written_by,
+						'by': song_by
 					}
 					songs.append(s)
 
@@ -92,7 +88,7 @@ def parse (download_location, host, dbname, user, password, table_name, table_ti
 				pprint.pprint(json.dumps(songs))
 
 				if movie_title:
-					cur.execute("INSERT INTO " + table_name + " (" + table_title + ", " + table_songs + ") VALUES (%s, %s)", (movie_title, json.dumps(songs)))
+					cur.execute("INSERT INTO " + table_name + " (" + table_title + ", " + table_songs + ", count) VALUES (%s, %s, %s)", (movie_title, json.dumps(songs), len(songs)))
 					con.commit()
 
 				# reset
@@ -101,12 +97,12 @@ def parse (download_location, host, dbname, user, password, table_name, table_ti
 				song_title = None
 				song_performed_by = None
 				song_written_by = None
+				song_by = None
 
 		if con:
 			# add an index on the text colum to speed up seaerch
 			# cur.execute("CREATE INDEX titles_idx ON " + table_name + " USING gist (" + table_title + " gist_trgm_ops);")
 			con.close()
- 
+			
 if __name__ == "__main__":
 	parse()
-
