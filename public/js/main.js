@@ -121,6 +121,9 @@ main.controller('MainCtrl', function(playlist, $scope, $rootScope, $http, $locat
 	};
 
 	$scope.$on("$routeChangeSuccess", function ($currentRoute, $previousRoute ) {
+		// stops a song if it is playing
+		resetSong();
+
 		if ($routeParams.sid) {
 			$scope.run($routeParams.sid);
 		}
@@ -149,10 +152,11 @@ main.controller('MainCtrl', function(playlist, $scope, $rootScope, $http, $locat
 
 		// we need to make sure any song playing is reset
 		if ($scope.playlist.current.index !== null && typeof $scope.playlist.current.index !== 'undefined') {
+			youtubePlayerApi.stop();
+			
 			if ($scope.playlist.songs[$scope.playlist.current.index]) {
 				$scope.playlist.songs[$scope.playlist.current.index].state = null;
 				$scope.playlist.songs[$scope.playlist.current.index].progress = 0;
-
 				// this will stop the progress bar on the last playing song
 				clearInterval($scope.playlist.current.interval);
 			}
@@ -192,16 +196,15 @@ main.controller('MainCtrl', function(playlist, $scope, $rootScope, $http, $locat
 		$location.path('/soundtracks/' + id);
 	};
 
-	$scope.run = function (id) {
-		//$location.path('/soundtracks/' + id);
+	$scope.resetSong = function (id) {
+		resetSong();
+	};
 
+	$scope.run = function (id) {
 		// hide the movies list and the playlist
 		$scope.movies.show = false;
 		$scope.playlist.show = false;
 		$scope.movies.poster = {};
-
-		// if a song was playing, then clear it
-		resetSong();
 
 		// this will activate the loader
 		$scope.playlist.loading = true;

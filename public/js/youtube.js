@@ -2,11 +2,6 @@ var youtube = angular.module('youtube',['ng']);
 
 youtube.run(function () {
 	var tag = document.createElement('script');
-
-	// This is a protocol-relative URL as described here:
-	//     http://paulirish.com/2010/the-protocol-relative-url/
-	// If you're testing a local page accessed via a file:/// URL, please set tag.src to
-	//     "https://www.youtube.com/iframe_api" instead.
 	tag.src = "//www.youtube.com/iframe_api";
 	var firstScriptTag = document.getElementsByTagName('script')[0];
 	firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
@@ -42,16 +37,15 @@ youtube.service('youtubePlayerApi', ['$window', '$rootScope', '$log', function (
 			$rootScope.$apply();
 		},
 		'onStateChange': function () {
-
+			// some action
 		}
-	}
+	};
 
 	service.bindVideoPlayer = function (elementId) {
 		service.playerId = elementId;
 	};
 
 	service.createPlayer = function () {
-
 		return new YT.Player(this.playerId, {
 			height: this.playerHeight,
 			width: this.playerWidth,
@@ -67,25 +61,32 @@ youtube.service('youtubePlayerApi', ['$window', '$rootScope', '$log', function (
 			if(this.player) {
 				this.player.destroy();
 			}
-
 			this.player = this.createPlayer();
 		}
 	};
 
 	service.play = function (id) {
-		this.player.loadVideoById(id);
+		if (this.player) {
+			this.player.loadVideoById(id);
+		}
 	};
 
 	service.pause = function (id) {
-		this.player.pauseVideo();
+		if (this.player) {
+			this.player.pauseVideo();
+		}
 	};
 
 	service.stop = function (id) {
-		this.player.stopVideo();
+		if (this.player) {
+			this.player.stopVideo();
+		}
 	};
 
 	service.resume = function (id) {
-		this.player.playVideo();
+		if (this.player) {
+			this.player.playVideo();
+		}
 	};
 
 	service.getTotalTime = function () {

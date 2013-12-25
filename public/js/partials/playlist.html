@@ -27,7 +27,7 @@
 							<span ng-class="{ songartist: song.id != null, nullsongartist: song.id == null}"><strong>{[{ song.artist }]}</strong></span>
 						</span>
 						<div ng-show="song.id != null" class="actions">
-							<a href="{[{ song.link }]}" target="_blank" title="Watch on YouTube"><span class="open-youtube">&nbsp;</span></a>
+							<a href="{[{ song.link }]}" target="_blank" title="Watch on YouTube" ng-click="resetSong()"><span class="open-youtube">&nbsp;</span></a>
 						</div>
 					</div>
 				</div>
