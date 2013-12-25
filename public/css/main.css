@@ -4,13 +4,11 @@ html {
    	min-width: 300px;
 }
 
-
 .clear {
     content:'';
     display:block;
     clear: both;
 }
-
 
 [ng\:cloak], [ng-cloak], .ng-cloak { display: none; }
 
@@ -23,7 +21,6 @@ html {
          url('../fonts/nevis-webfont.svg#webfontbold') format('svg');
     font-weight: normal;
     font-style: normal;
-
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -42,8 +39,7 @@ h5 { font-size: 14px; line-height: 100%; margin-bottom: 8px; }
 h6 { font-size: 12px; line-height: 100%; margin-bottom: 8px; }
 
 .navbar-inverse .navbar-inner {
-
-	background: #326695;
+	background-color: #326695;
 	border: none;
 }
 
@@ -52,8 +48,6 @@ h6 { font-size: 12px; line-height: 100%; margin-bottom: 8px; }
 	position:relative;
 	z-index:499;
 	display: block;
-
-
 }
 
 .search form {
