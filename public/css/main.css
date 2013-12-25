@@ -40,6 +40,8 @@ h6 { font-size: 12px; line-height: 100%; margin-bottom: 8px; }
 
 .navbar-inverse .navbar-inner {
 	background-color: #326695;
+	background-image: none;
+	background-repeat: no-repeat;
 	border: none;
 }
 
