@@ -2,14 +2,13 @@
 <html lang="en" ng-app="main">
 	<head>
 		<meta charset="utf-8">
-		<title>TheSoundtrackDB | Search for and listen to music from any movie or tv show</title>
+		<title>TheSoundtrackDB | Search for and listen to music from any movie or TV soundtrack</title>
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<meta name="description" content="">
-		<meta name="author" content="">
+		<meta name="description" content="Search for and listen to movie soundtracks.">
+		<meta name="author" content="Chris Zieba">
 
 		<!-- Le styles -->
 		<link href="{{ asset('css/bootstrap.css') }}" rel="stylesheet">
-		
 		<link href="{{ asset('css/main.css') }}" rel="stylesheet">
 
 		<!-- HTML5 shim, for IE6-8 support of HTML5 elements -->

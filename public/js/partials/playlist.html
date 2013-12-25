@@ -5,7 +5,7 @@
 <div class="playlist" ng-cloak ng-show="playlist.show == true">
 	<div class="movie">
 		<div class="cover">
-			<img src="{[{ movies.poster.url }]}" width="70" />
+			<img ng-src="{[{ movies.poster.url }]}" width="70" />
 		</div>
 		<div class="title">
 			<h2>{[{ movies.current.title }]}</h2>
