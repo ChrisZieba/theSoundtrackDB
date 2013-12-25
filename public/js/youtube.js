@@ -66,25 +66,25 @@ youtube.service('youtubePlayerApi', ['$window', '$rootScope', '$log', function (
 	};
 
 	service.play = function (id) {
-		if (this.player) {
+		if (this.player && this.player.loadVideoById) {
 			this.player.loadVideoById(id);
 		}
 	};
 
 	service.pause = function (id) {
-		if (this.player) {
+		if (this.player && this.player.pauseVideo) {
 			this.player.pauseVideo();
 		}
 	};
 
 	service.stop = function (id) {
-		if (this.player) {
+		if (this.player && this.player.stopVideo) {
 			this.player.stopVideo();
 		}
 	};
 
 	service.resume = function (id) {
-		if (this.player) {
+		if (this.player && this.player.playVideo) {
 			this.player.playVideo();
 		}
 	};
