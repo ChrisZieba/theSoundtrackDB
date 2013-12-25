@@ -7,7 +7,7 @@ class Home_Controller extends Base_Controller {
 	}
 
 	public function action_popular() {
-		$popular = DB::query("SELECT id, title,count FROM soundtracks WHERE id in (52638,61707,63540,66080,83796,86927,99193,96052,89300,97777,81813,96132,96685,50373,94439,85413,92248,94004,50528,82344)");
+		$popular = DB::query("SELECT id, title,count FROM soundtracks WHERE id in (59200,94152,93465,83443,56637,81571,100115,102146,105884,56966,56801,59164,68544.73055,89317,91357,94588,97027,101873,103976,105758,107235)");
 	    return Response::json($popular);
 
 	}
