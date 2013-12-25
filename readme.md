@@ -5,8 +5,10 @@ TheSoundtrackDB is a place to find and listen to most movie and tv soundtracks. 
 Installation
 ------------
 
-1. `git clone https://github.com/ChrisZieba/theSoundtrackDB.git`
-2. Point yout webserver to `public/`
+1. Make sure you have your postgres database initialized
+2. To get the database records from IMDB you can use [Rebase](https://github.com/ChrisZieba/Rebase)
+3. `git clone https://github.com/ChrisZieba/theSoundtrackDB.git`
+4. Point yout webserver to `public/`
 
 License
 -------
