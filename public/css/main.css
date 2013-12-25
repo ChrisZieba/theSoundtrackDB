@@ -43,6 +43,8 @@ h6 { font-size: 12px; line-height: 100%; margin-bottom: 8px; }
 	background-image: none;
 	background-repeat: no-repeat;
 	border: none;
+	filter: none;
+	-ms-filter: none;
 }
 
 .search {
