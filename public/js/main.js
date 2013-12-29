@@ -254,7 +254,6 @@ main.controller('MainCtrl', function(playlist, $scope, $rootScope, $http, $locat
 			break;
 			case 'pause':
 				// if the current song is paused, then resume it
-				
 				$scope.playlist.songs[index].state = 'play';
 				youtubePlayerApi.resume();
 			break;

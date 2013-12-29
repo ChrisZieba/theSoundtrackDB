@@ -68,6 +68,7 @@
 		<!-- Le javascript
 		================================================== -->
 		<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.0.7/angular.min.js"></script>
+		<script src="{{ asset('js/echo.min.js') }}"></script>
 		<script src="{{ asset('js/youtube.js') }}"></script>
 		<script src="{{ asset('js/main.js') }}"></script>
 
