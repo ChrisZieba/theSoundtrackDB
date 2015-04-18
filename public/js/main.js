@@ -29,27 +29,24 @@ main.factory('playlist', function ($http, $q) {
 				var q = songs[i].title;
 
 				if (songs[i].performed_by != null) {
-					q = songs[i].title + '+' + songs[i].performed_by;
+					q = songs[i].performed_by + '+' + songs[i].title;
 				} else if (songs[i].written_by != null) {
-					q = songs[i].title + '+' + songs[i].written_by;
+					q = songs[i].written_by + '+' + songs[i].title;
 				} else if (songs[i].by != null) {
-					q = songs[i].title + '+' + songs[i].by;
+					q = songs[i].by + '+' + songs[i].title;
 				}
 
 				promises.push($http({
 					method: 'JSONP', 
-					url: "https://gdata.youtube.com/feeds/api/videos", 
+					url: "https://www.googleapis.com/youtube/v3/search?", 
 					params:{
 						"q": q,
-						"orderby": "relevance",
-						"start-index": "1",
-						"max-results": "1",
-						"v": "2",
-						"category": "Music",
-						"format": "5",
-						"fields": "entry",
-						"alt": "json-in-script",
-						"key": "AI39si4GvSbD8b5YToRoi2iKe_9FpIJS-PwqSlRMTRfVMVh0FcFEP0FBRT8bNGGP8Twl3GmaESWxldETOfvf_4RQX33LgJ3sgA",
+						"type": "video",
+						"order": "relevance",
+						"videoCategoryId": "10",
+						"alt": "json",
+						"part": "id, snippet",
+						"key": "AIzaSyCoTxAhFhmOhnRnXEtN5H4FQcbrzHNZyAg",
 						"callback": "JSON_CALLBACK"
 					} 
 				}));
@@ -61,27 +58,39 @@ main.factory('playlist', function ($http, $q) {
 		// return an array of the playlist songs,  given an array of responses
 		format: function (response) {
 			var playlist = [];
-
+console.log(response)
 			for (var i = 0; i < response.length; i+=1) {
-				// if youtube didn't find a result this will be false
-				var entry = (response[i].data.feed.entry) ? response[i].data.feed.entry[0] : false;
-				var title = response[i].config.params.q.split('+')[0];
-				var artist = (response[i].config.params.q.split('+')[1]) ? response[i].config.params.q.split('+')[1] : null;
-				var duration = (entry) ? entry['media$group']['media$content'][0].duration : null;
-				var progress = (entry) ? 0 : null;
-				var link = (entry) ? entry.link[0].href : null;
-				var id = (entry) ? entry.id["$t"].split(':')[3]: null;
-				var state = null;
+				var items = response[i].data.items;
+				var q = response[i].config.params.q;
+				var artist, title;
 
-				playlist.push({
-					title: title,
-					artist: artist,
-					duration: duration,
-					progress: progress,
-					link: link,
-					id: id,
-					state: state
-				});
+				if (items.length > 0) {
+					var id = items[0].id["videoId"];
+					var parts = q.split('+', 2);
+					// if youtube didn't find a result this will be false
+
+					if (parts.length > 1) {
+						title = parts[1];
+						artist = parts[0];
+					} else {
+						title = items[0].snippet.title;
+						artist = null;
+					}
+
+					// TODO
+					var duration = null;
+					var link = null;
+
+					playlist.push({
+						title: title,
+						artist: artist,
+						duration: duration,
+						progress: 0,
+						link: link,
+						id: id,
+						state: null
+					});
+				}
 			}
 
 			// we want to show the songs that have youtube videos at the top of the array
