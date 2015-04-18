@@ -58,7 +58,7 @@ main.factory('playlist', function ($http, $q) {
 		// return an array of the playlist songs,  given an array of responses
 		format: function (response) {
 			var playlist = [];
-console.log(response)
+
 			for (var i = 0; i < response.length; i+=1) {
 				var items = response[i].data.items;
 				var q = response[i].config.params.q;
