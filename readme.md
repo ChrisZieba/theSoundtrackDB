@@ -1,6 +1,6 @@
 # TheSoundtrackDB
 
-[TheSoundtrackDB](http://thesoundtrackdb.com) is a place to find and listen to most movie and tv soundtracks. All the soundtrack listings are from the [plain text data files](http://www.imdb.com/interfaces) via [IMDB](http://www.imdb.com), and the music is provided courtesy of [YouTube](http://www.youtube.com). [Laravel](http://wwwlaravel.com) is used as the server side framework and [AngularJS](http://angularjs.org/) is used as the client side framework.
+[TheSoundtrackDB](http://thesoundtrackdb.com) is a place to find and listen to most movie and tv soundtracks. All the soundtrack listings are from the [plain text data files](http://www.imdb.com/interfaces) via [IMDB](http://www.imdb.com), and the music is provided courtesy of [YouTube](http://www.youtube.com). Previous versions used [Laravel](http://wwwlaravel.com) as the server side framework and [AngularJS](http://angularjs.org/) as the client side framework. The project was updated to use react on the client side and AWS Lambda for any server side processing.
 
 Installation
 ------------
