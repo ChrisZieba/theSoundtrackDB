@@ -1,0 +1,29 @@
+{
+  "name": "theSoundtrackDB",
+  "dependencies": {
+    "express": "latest",
+    "pg": "latest",
+    "express-promise-router": "latest",
+    "react": "latest",
+    "react-dom": "latest",
+    "redux": "latest",
+    "react-redux": "latest",
+    "react-router-dom": "latest"
+  },
+  "scripts": {
+    "start": "nodemon --watch server server/app.js",
+    "start:dev": "webpack-dev-server"
+  },
+  "devDependencies": {
+    "babel-core": "latest",
+    "babel-loader": "latest",
+    "babel-preset-env": "latest",
+    "babel-preset-react": "latest",
+    "css-loader": "latest",
+    "style-loader": "latest",
+    "file-loader": "latest",
+    "url-loader": "latest",
+    "webpack": "3.0.0",
+    "webpack-dev-server": "latest"
+  }
+}
