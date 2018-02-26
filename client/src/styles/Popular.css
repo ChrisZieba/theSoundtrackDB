@@ -1,0 +1,39 @@
+ul.popular {
+  list-style: none;
+}
+
+ul.popular li {
+  list-style: none;
+  display: inline-block;
+  margin: 5px 8px;
+  border: 1px solid #ddd;
+  cursor: pointer;
+  box-shadow: rgba(0, 0, 0, 0.8) 0px 1px 4px 0px;
+}
+
+ul.popular li:hover {
+  border: 1px solid #999FAD;
+}
+
+ul.popular li img {
+  vertical-align: middle;
+}
+
+ul.popular li .info {
+  margin: 2px 4px;
+}
+
+ul.popular li .info .title {
+  text-transform: uppercase;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  line-height: 16px;
+  font-weight: 700;
+  max-width: 180px;
+  width: 180px;
+  overflow: hidden;
+}
+
+ul.popular li .info .count {
+  color: #333;
+}

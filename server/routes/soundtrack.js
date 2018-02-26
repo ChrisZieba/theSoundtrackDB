@@ -29,18 +29,18 @@ router.get('/search', async (req, res) => {
   return res.send(result.rows);
 });
 
-router.get('/popular', async (req, res) => {
-  const { q } = req.query;
+// router.get('/popular', async (req, res) => {
+//   const { q } = req.query;
 
-  let result;
-  try {
-    result = await db.query('SELECT id, title, count FROM soundtracks WHERE id in (59200,94152,93465,83443,56637,81571,100115,102146,105884,56966,56801,59164,68544.73055,89317,91357,94588,97027,101873,103976,105758,107235)');
-  } catch(e) {
-    console.log(e);
-  }
+//   let result;
+//   try {
+//     result = await db.query('SELECT id, title, count FROM soundtracks WHERE id in (59200,94152,93465,83443,56637,81571,100115,102146,105884,56966,56801,59164,68544.73055,89317,91357,94588,97027,101873,103976,105758,107235)');
+//   } catch(e) {
+//     console.log(e);
+//   }
 
-  return res.send(result.rows);
-});
+//   return res.send(result.rows);
+// });
 
 router.get('/:id', async (req, res) => {
   const { id } = req.params;

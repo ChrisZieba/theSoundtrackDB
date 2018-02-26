@@ -8,10 +8,11 @@
     "react-dom": "latest",
     "redux": "latest",
     "react-redux": "latest",
-    "react-router-dom": "latest"
+    "react-router-dom": "latest",
+    "bootstrap": "latest"
   },
   "scripts": {
-    "start": "nodemon --watch server server/app.js",
+    "start": "NODE_ENV=development nodemon --watch server server/app.js",
     "start:dev": "webpack-dev-server"
   },
   "devDependencies": {
