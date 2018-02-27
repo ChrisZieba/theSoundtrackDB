@@ -14,8 +14,8 @@ module.exports = router;
 
 router.get('/search', async (req, res) => {
   const { q } = req.query;
-  console.log(q,req.query)
-  if (!q) return res.sendStatus(400);
+
+  if (!q) return res.send([]);
 
   let result;
   try {
@@ -24,7 +24,7 @@ router.get('/search', async (req, res) => {
     console.log(e);
   }
 
-  if (!result) return res.sendStatus(400);
+  if (!result || !result.rows) return res.send([]);
 
   return res.send(result.rows);
 });
@@ -51,6 +51,8 @@ router.get('/:id', async (req, res) => {
   } catch(e) {
     console.log(e);
   }
+
+  if (!result || !result.rows) return res.send({});
 
   return res.send(result.rows[0]);
 });

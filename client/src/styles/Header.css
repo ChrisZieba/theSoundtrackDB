@@ -4,3 +4,13 @@ header {
   color: white;
   text-align: center;
 }
+
+header h1 a {
+  text-decoration: none;
+  color: white;
+}
+
+header h1 a:hover {
+  text-decoration: none;
+  color: white;
+}

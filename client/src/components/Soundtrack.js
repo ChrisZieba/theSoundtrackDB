@@ -18,6 +18,17 @@ class Soundtrack extends React.Component {
     };
   }
 
+  componentDidMount() {
+    const { match: { params } } = this.props;
+    this.update(params);
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.match.params.id !== this.props.match.params.id) {
+      this.update(nextProps.match.params);
+    }
+  }
+
   parseYear(query) {
     let year = '';
     const matches = query.match(/\((\d{4}.*?)\)/i);
@@ -30,28 +41,30 @@ class Soundtrack extends React.Component {
     return year;
   }
 
-  componentDidMount() {
-    const { match: { params } } = this.props;
-
+  update(params) {
     fetch(`http://localhost:3000/api/soundtrack/${params.id}`)
-    .then(response => response.json()).then((json) => {
-      console.log(json)
+    .then(response => response.json()).then((result) => {
+
+      if (!result || !result.songs) {
+        throw new Error('No results');
+      };
+
       this.setState({
-        songs: JSON.parse(json.songs),
-        count: json.count,
-        id: json.id,
-        title: json.title.replace(/\((.*?)\)/gi, ""),
-        year: this.parseYear(json.title)
+        songs: JSON.parse(result.songs),
+        count: result.count,
+        id: result.id,
+        title: result.title.replace(/\((.*?)\)/gi, ""),
+        year: this.parseYear(result.title)
       });
 
-      return fetch(`http://api.themoviedb.org/3/search/movie?api_key=bec76ba6cb9f349afe8728693f6de4ba&query=${this.state.title}&year=&{this.state.year}`);
+      return fetch(`https://api.themoviedb.org/3/search/movie?api_key=bec76ba6cb9f349afe8728693f6de4ba&query=${this.state.title}&year=${this.state.year}`);
     })
     .then(response => response.json()).then((response) => {
       // now we have all our movies and can add them
       if (response.results && response.results.length > 0 && response.results[0].poster_path) {
         this.setState({
           poster: {
-            url: `http://cf2.imgobject.com/t/p/w185${response.results[0].poster_path}`,
+            url: `https://image.tmdb.org/t/p/w185/${response.results[0].poster_path}`,
             year: response.results[0].release_date || 'N/A'
           }
         });

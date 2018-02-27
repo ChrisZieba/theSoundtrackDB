@@ -6,8 +6,6 @@
     "express-promise-router": "latest",
     "react": "latest",
     "react-dom": "latest",
-    "redux": "latest",
-    "react-redux": "latest",
     "react-router-dom": "latest",
     "bootstrap": "latest"
   },

@@ -7,7 +7,7 @@ const Popular = () => (
   <div className="container">
     <ul className="popular">
       {popular.map((item, index) => (
-        <Link key={item.id} to={{ pathname: `soundtrack/${item.id}` }}>
+        <Link key={item.id} to={{ pathname: `/soundtrack/${item.id}` }}>
           <li>
             <img src={`/img/posters/${item.id}.jpg`} width="185" height="278" />
             <div className="info">
