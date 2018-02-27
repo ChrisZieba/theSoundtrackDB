@@ -92,12 +92,10 @@ class Soundtrack extends React.Component {
           </div>
         </div>
 
-        <div className="row">
-          <div className="st-song-list">
-            {this.state.songs.map((song, index) => (
-              <Song key={index} song={song} />
-            ))}
-          </div>
+        <div className="row st-song-list">
+          {this.state.songs.map((song, index) => (
+            <Song key={index} song={song} />
+          ))}
         </div>
       </div>
     )

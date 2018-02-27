@@ -1,0 +1,31 @@
+.st-song-list .song {
+  padding: 3px 6px;
+  font-size: 1.2em;
+  margin-bottom: 10px;
+}
+
+.st-song-list .song .title {
+  font-weight: 700;
+}
+
+.st-song-list .song .play {
+  color: black;
+  display: inline-block;
+  font-size: 0.8em;
+  width: 25px;
+  height: 25px;
+  cursor: pointer;
+  padding: 0;
+  text-align: center;
+  vertical-align: middle;
+  border-radius: 50%;
+  border-width: 3px;
+  border-style: solid;
+  border-color: black;
+}
+
+.st-song-list .song .artist {
+  color: #aeaeae;
+  font-style: italic;
+  padding-left: 30px;
+}
