@@ -1,0 +1,7 @@
+{
+  "name": "thesoundtrackdb",
+  "dependencies": {
+    "request": "latest",
+    "pg": "latest"
+  }
+}
