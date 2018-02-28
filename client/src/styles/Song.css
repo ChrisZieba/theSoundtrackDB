@@ -11,7 +11,7 @@
 .st-song-list .song .play {
   color: black;
   display: inline-block;
-  font-size: 0.8em;
+  font-size: 0.75em;
   width: 25px;
   height: 25px;
   cursor: pointer;

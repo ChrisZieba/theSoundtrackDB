@@ -42,7 +42,11 @@ class Soundtrack extends React.Component {
   }
 
   update(params) {
-    fetch(`http://localhost:3000/api/soundtrack/${params.id}`)
+    fetch(`https://lxg755w5y6.execute-api.us-east-1.amazonaws.com/prod/soundtrack/${params.id}`, {
+      headers: {
+        'x-api-key': 'GeyEvieaOj556R2FyyhWq2VpI0Viw2tl8rOQz0MK'
+      }
+    })
     .then(response => response.json()).then((result) => {
 
       if (!result || !result.songs) {
@@ -86,7 +90,7 @@ class Soundtrack extends React.Component {
           <div className="col-md-auto">
             <div className="st-title">
               <h2>{this.state.title}</h2>
-              <div className="st-title-year">Released: {this.state.poster.year}</div>
+              <div className="st-title-year"><strong>Released:</strong> {this.state.poster.year}</div>
               <div className="st-title-count">{this.state.count} song(s)</div>
             </div>
           </div>

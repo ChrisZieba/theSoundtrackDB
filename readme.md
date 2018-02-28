@@ -10,6 +10,11 @@ Installation
 3. `git clone https://github.com/ChrisZieba/theSoundtrackDB.git`
 4. Point yout webserver to `public/`
 
+Datavase
+
+thesoundtrackdb=> CREATE EXTENSION pg_trgm;
+thesoundtrackdb=> CREATE INDEX soundtracks_title_idx ON soundtracks USING GIN(title gin_trgm_ops);
+
 License
 -------
 

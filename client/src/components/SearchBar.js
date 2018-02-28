@@ -22,7 +22,11 @@ class SearchBar extends React.Component {
       return;
     }
 
-    fetch(`http://localhost:3000/api/soundtrack/search?q=${q}`)
+    fetch(`https://lxg755w5y6.execute-api.us-east-1.amazonaws.com/prod/search?q=${q}`,{
+      headers: {
+        'x-api-key': 'GeyEvieaOj556R2FyyhWq2VpI0Viw2tl8rOQz0MK'
+      }
+    })
     .then(response => response.json()).then((results) => {
       if (!Array.isArray(results) || !results.length) return;
       this.setState({ results });

@@ -34,6 +34,7 @@ build/Release
 
 # Dependency directories
 lambda/node_modules
+lambda/build/
 node_modules/
 jspm_packages/
 

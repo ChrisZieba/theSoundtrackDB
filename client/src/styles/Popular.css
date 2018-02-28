@@ -35,5 +35,7 @@ ul.popular li .info .title {
 }
 
 ul.popular li .info .count {
-  color: #333;
+  color: #929292;
+  font-style: italic;
+  font-size: 0.95em;
 }
