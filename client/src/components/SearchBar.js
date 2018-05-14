@@ -15,23 +15,7 @@ class SearchBar extends React.Component {
   }
 
   handleKeyPress(e) {
-    const q = e.target.value.trim();
-    this.setState({ input: q });
-    if (!q) {
-      this.setState({ results: [] });
-      return;
-    }
-
-    fetch(`https://lxg755w5y6.execute-api.us-east-1.amazonaws.com/prod/search?q=${q}`,{
-      headers: {
-        'x-api-key': 'GeyEvieaOj556R2FyyhWq2VpI0Viw2tl8rOQz0MK'
-      }
-    })
-    .then(response => response.json()).then((results) => {
-      if (!Array.isArray(results) || !results.length) return;
-      this.setState({ results });
-    })
-    .catch(error => console.error('Error:', error));
+    this.setState({ results: [] });
   }
 
   clearResults(e) {

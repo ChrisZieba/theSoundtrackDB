@@ -43,7 +43,7 @@ youtube.get = (title, artist) => {
     videoCategoryId: "10",
     alt: "json",
     part: "id,snippet",
-    key: "AIzaSyDA9zclpvT41AeFbsAaO5rVLZIx1yCFrvQ"
+    key: ""
   };
 
   return new Promise((resolve, reject) => {

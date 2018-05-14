@@ -42,44 +42,25 @@ class Soundtrack extends React.Component {
   }
 
   update(params) {
-    fetch(`https://lxg755w5y6.execute-api.us-east-1.amazonaws.com/prod/soundtrack/${params.id}`, {
-      headers: {
-        'x-api-key': 'GeyEvieaOj556R2FyyhWq2VpI0Viw2tl8rOQz0MK'
+    this.setState({
+      songs: [],
+      count: 0,
+      id: null,
+      title: '',
+      year: '',
+      poster: {
+        url: 'img/none.jpg',
+        year: 'N/A'
       }
-    })
-    .then(response => response.json()).then((result) => {
-
-      if (!result || !result.songs) {
-        throw new Error('No results');
-      };
-
-      this.setState({
-        songs: JSON.parse(result.songs),
-        count: result.count,
-        id: result.id,
-        title: result.title.replace(/\((.*?)\)/gi, ""),
-        year: this.parseYear(result.title)
-      });
-
-      return fetch(`https://api.themoviedb.org/3/search/movie?api_key=bec76ba6cb9f349afe8728693f6de4ba&query=${this.state.title}&year=${this.state.year}`);
-    })
-    .then(response => response.json()).then((response) => {
-      // now we have all our movies and can add them
-      if (response.results && response.results.length > 0 && response.results[0].poster_path) {
-        this.setState({
-          poster: {
-            url: `https://image.tmdb.org/t/p/w185/${response.results[0].poster_path}`,
-            year: response.results[0].release_date || 'N/A'
-          }
-        });
-      }
-    })
-    .catch(error => console.error('Error:', error));
+    });
   }
 
   render() {
     return(
       <div className="container">
+        <div className="alert alert-danger">
+          <p>Unfortunaly, as of <strong>May 2018</strong> TheSoundtrackDB has shut down all services. Thank you to all the supporters over the last 6 years. <a href="https://github.com/chriszieba/thesoundtrackdb" target="_blank">The code is still on Github for anyone interested</a>.</p> 
+        </div>
         <div className="row justify-content-md-center">
           <div className="col-md-auto">
             <div className="st-poster">

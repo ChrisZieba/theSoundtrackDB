@@ -11,7 +11,7 @@
   },
   "scripts": {
     "start": "NODE_ENV=development nodemon --watch server server/app.js",
-    "start:dev": "webpack-dev-server"
+    "start:dev": "webpack-dev-server --mode development"
   },
   "devDependencies": {
     "babel-core": "latest",
@@ -22,7 +22,8 @@
     "style-loader": "latest",
     "file-loader": "latest",
     "url-loader": "latest",
-    "webpack": "3.0.0",
+    "webpack": "latest",
+    "webpack-cli": "latest",
     "webpack-dev-server": "latest"
   }
 }
